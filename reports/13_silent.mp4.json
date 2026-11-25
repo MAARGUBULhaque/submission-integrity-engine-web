@@ -1,0 +1,15 @@
+{
+  "document_id": "13_silent.mp4",
+  "status": "skipped",
+  "total_integrity_risk": "UNKNOWN",
+  "scores": {
+    "peer_similarity_percentage": null,
+    "external_similarity_percentage": null,
+    "ai_generated_probability": null
+  },
+  "peer_matches": [],
+  "multimodal_matches": [],
+  "external_matches": [],
+  "explanations": "No readable audio track",
+  "backend": "semantic"
+}

@@ -1,0 +1,15 @@
+{
+  "document_id": "05_empty.pdf",
+  "status": "skipped",
+  "total_integrity_risk": "UNKNOWN",
+  "scores": {
+    "peer_similarity_percentage": null,
+    "external_similarity_percentage": null,
+    "ai_generated_probability": null
+  },
+  "peer_matches": [],
+  "multimodal_matches": [],
+  "external_matches": [],
+  "explanations": "Empty file",
+  "backend": "semantic"
+}

@@ -1,0 +1,74 @@
+{
+  "document_id": "02_copy.pdf",
+  "status": "ok",
+  "total_integrity_risk": "HIGH",
+  "scores": {
+    "peer_similarity_percentage": 100.0,
+    "external_similarity_percentage": 0.0,
+    "ai_generated_probability": 77.03
+  },
+  "peer_matches": [
+    {
+      "matched_file": "01_health.pdf",
+      "similarity_score": 1.0,
+      "query_passage": "Community clinics can reduce diagnostic delays by using remote consultations. Patients receive early screening through mobile health applications. Local nurses coordinate follow-up appointments with specialist doctors. The proposed pilot tracks waiting time and patient satisfaction.",
+      "matched_passage": "Community clinics can reduce diagnostic delays by using remote consultations. Patients receive early screening through mobile health applications. Local nurses coordinate follow-up appointments with specialist doctors. The proposed pilot tracks waiting time and patient satisfaction.",
+      "location": {
+        "query": [
+          {
+            "page": 1
+          }
+        ],
+        "matched": [
+          {
+            "page": 1
+          }
+        ]
+      }
+    }
+  ],
+  "multimodal_matches": [
+    {
+      "matched_file": "11_health.mp4",
+      "similarity_score": 0.9923,
+      "query_passage": "Community clinics can reduce diagnostic delays by using remote consultations. Patients receive early screening through mobile health applications. Local nurses coordinate follow-up appointments with specialist doctors. The proposed pilot tracks waiting time and patient satisfaction.",
+      "matched_passage": "Community clinics can reduce diagnostic delays by using remote consultations. Patient's receive early screening through mobile health applications. Local nurses co-ordinate follow-up appointment with specialist doctors. The proposed pilot tracks waiting time and patient satisfaction.",
+      "location": {
+        "query": [
+          {
+            "page": 1
+          }
+        ],
+        "matched": [
+          {
+            "timestamp": [
+              0.0,
+              5.94
+            ]
+          },
+          {
+            "timestamp": [
+              5.94,
+              10.16
+            ]
+          },
+          {
+            "timestamp": [
+              10.16,
+              14.72
+            ]
+          },
+          {
+            "timestamp": [
+              14.72,
+              19.2
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "external_matches": [],
+  "explanations": "Flagged unique-word coverage at cosine threshold 0.7; 1 common sentences excluded corpus-wide. AI score is an uncalibrated mock and is not used for risk. Human review required.",
+  "backend": "semantic"
+}

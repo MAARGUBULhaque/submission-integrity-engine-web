@@ -1,0 +1,15 @@
+{
+  "document_id": "04_farming.pdf",
+  "status": "ok",
+  "total_integrity_risk": "LOW",
+  "scores": {
+    "peer_similarity_percentage": 0.0,
+    "external_similarity_percentage": 0.0,
+    "ai_generated_probability": 55.5
+  },
+  "peer_matches": [],
+  "multimodal_matches": [],
+  "external_matches": [],
+  "explanations": "Flagged unique-word coverage at cosine threshold 0.7; 1 common sentences excluded corpus-wide. AI score is an uncalibrated mock and is not used for risk. Human review required.",
+  "backend": "semantic"
+}

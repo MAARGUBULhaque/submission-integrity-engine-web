@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+.DS_Store
+.env
+.env.*
+reports_075/
+reports_070/
+reports_offline/
+.cache/
+*.pt
+*.pth
+*.safetensors
