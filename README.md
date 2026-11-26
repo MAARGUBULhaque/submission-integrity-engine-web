@@ -312,3 +312,188 @@ ChatGPT was used extensively to generate the initial project implementation, syn
 Local environment configuration, pipeline execution, threshold experiments, report inspection, and automated testing were subsequently performed by the candidate with AI guidance.
 
 The candidate should independently review and understand the implementation and confirm that the scope of AI assistance complies with the assessment rules before submission.
+---
+
+## Streamlit Web Application
+
+An interactive browser-based dashboard for multimodal AI-powered plagiarism detection.
+
+### Web Application Features
+
+- Interactive Streamlit dashboard
+- Multiple PDF, DOCX and MP4 file uploads
+- Built-in synthetic sample dataset
+- Configurable semantic similarity threshold
+- Automatic text extraction and video transcription
+- Exact and semantic plagiarism detection
+- Paraphrase detection
+- Cross-modal plagiarism detection
+- External reference matching
+- Experimental AI-generated content indicator
+- Submission integrity risk classification
+- Interactive charts and results tables
+- Side-by-side matching evidence
+- PDF page numbers, DOCX paragraph references and video timestamps
+- Execution logs and error handling
+- Downloadable reports in ZIP format
+
+### Technology Stack
+
+| Technology | Purpose |
+|---|---|
+| Python | Core programming language |
+| Streamlit | Web frontend |
+| PyTorch | Model inference |
+| MiniLM | Semantic vector embeddings |
+| Whisper | Speech-to-text transcription |
+| Scikit-learn | Machine learning utilities |
+| NumPy | Vector calculations |
+| Pandas | Data processing |
+| PyArrow | Data serialization |
+| PyMuPDF | PDF extraction |
+| python-docx | Word document extraction |
+| FFmpeg | Audio processing |
+| Pytest | Automated testing |
+
+### Web Application Architecture
+
+```mermaid
+flowchart TD
+    A[Streamlit Dashboard] --> B[File Upload]
+    B --> C[Text and Audio Extraction]
+    C --> D[Text Preprocessing]
+    D --> E[Text Chunking]
+    E --> F[MiniLM Vector Embeddings]
+    F --> G[Cosine Similarity]
+    G --> H[Internal and External Matching]
+    H --> I[Integrity Risk Classification]
+    I --> J[Dashboard and Reports]
+```
+
+## How to Run the Web Application
+
+### Prerequisites
+
+- Python 3.11
+- Git
+- FFmpeg
+- Sufficient disk space
+- Internet connection for initial model downloads
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/MAARGUBULhaque/submission-integrity-engine-web.git
+cd submission-integrity-engine-web
+```
+
+### 2. Create a virtual environment
+
+```bash
+python3 -m venv .venv
+```
+
+### 3. Activate the virtual environment
+
+macOS and Linux:
+
+```bash
+source .venv/bin/activate
+```
+
+Windows:
+
+```bash
+.venv\Scripts\activate
+```
+
+### 4. Install dependencies
+
+```bash
+python -m pip install setuptools==75.8.2 wheel
+python -m pip install --no-build-isolation -r requirements-web.txt
+```
+
+The dependency snapshot was prepared on macOS Intel using Python 3.11.3. Other platforms may require dependency adjustments.
+
+### 5. Configure FFmpeg
+
+For macOS:
+
+```bash
+ln -sf "$(python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')" "$VIRTUAL_ENV/bin/ffmpeg"
+```
+
+Verify FFmpeg:
+
+```bash
+ffmpeg -version
+```
+
+### 6. Start the web application
+
+```bash
+python -m streamlit run app.py
+```
+
+Open http://localhost:8501 in your browser.
+
+### 7. Analyze submissions
+
+1. Select the sample dataset or upload files.
+2. Set the similarity threshold to 0.70.
+3. Click Analyze Submissions.
+4. Review the dashboard and similarity scores.
+5. Examine matching evidence.
+6. Download the generated reports.
+
+## Run the CLI Version
+
+```bash
+python run_integrity_check.py --input_dir ./sample_submissions --output_dir ./reports
+```
+
+## Run Automated Tests
+
+```bash
+python -m pytest -q
+```
+
+## Sample Evaluation Results
+
+| Metric | Result |
+|---|---:|
+| Total submissions | 13 |
+| Successfully processed | 11 |
+| Skipped submissions | 2 |
+| High-risk submissions | 6 |
+| Similarity threshold | 0.70 |
+| Precision | 100% |
+| Recall | 100% |
+| F1 Score | 100% |
+| Exact passage similarity | 100% |
+| Cross-modal passage similarity | 99.23% |
+| Paraphrase passage similarity | 71.52% |
+| Automated tests previously passed | 6/6 |
+
+Evaluation metrics are based on a synthetic development dataset and do not guarantee equivalent performance on unseen submissions.
+
+## Limitations
+
+- AI-generated content estimation is an unvalidated mock heuristic.
+- External plagiarism detection uses a local reference corpus.
+- Similarity scores require human verification.
+- The web application currently runs locally.
+- Large-scale distributed processing is proposed but not implemented.
+
+## Future Enhancements
+
+- Cloud deployment
+- REST API integration
+- User authentication
+- Database integration
+- Vector database integration
+- Distributed processing
+- Validated AI content classification
+- Expanded external reference databases
+
