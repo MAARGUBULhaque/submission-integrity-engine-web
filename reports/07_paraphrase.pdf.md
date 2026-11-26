@@ -1,4 +1,4 @@
-# 07_paraphrase.docx
+# 07_paraphrase.pdf
 Status: ok
 Risk: HIGH
 
@@ -11,9 +11,9 @@ Flagged unique-word coverage at cosine threshold 0.7; 1 common sentences exclude
 
 ## peer_matches
 
-### 06_retail.docx — 0.715
-Query location: [{'paragraph': 2}]
-Source location: [{'paragraph': 2}]
+### 06_retail.pdf — 0.715
+Query location: [{'page': 1}]
+Source location: [{'page': 1}]
 
 Query: A local shop can retain shoppers by launching a loyalty scheme. Incentive credits motivate returning customers and tailored promotions. Reviewing revenue each week reveals which marketing efforts create lasting demand.
 

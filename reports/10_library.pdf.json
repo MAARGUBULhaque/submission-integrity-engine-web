@@ -1,11 +1,11 @@
 {
-  "document_id": "08_ai.docx",
+  "document_id": "10_library.pdf",
   "status": "ok",
   "total_integrity_risk": "LOW",
   "scores": {
     "peer_similarity_percentage": 0.0,
     "external_similarity_percentage": 0.0,
-    "ai_generated_probability": 100.0
+    "ai_generated_probability": 74.08
   },
   "peer_matches": [],
   "multimodal_matches": [],

@@ -1,16 +1,16 @@
 {
-  "valid_documents": 11,
-  "evaluated_pairs": 55,
+  "valid_documents": 9,
+  "evaluated_pairs": 36,
   "excluded_documents": [
-    "05_empty.pdf",
-    "13_silent.mp4"
+    "05_empty.pdf"
   ],
   "confusion_matrix_TN_FP_FN_TP": [
-    51,
+    34,
     0,
     0,
-    4
+    2
   ],
+  "accuracy": 1.0,
   "precision": 1.0,
   "recall": 1.0,
   "f1": 1.0,

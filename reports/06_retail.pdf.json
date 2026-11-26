@@ -1,5 +1,5 @@
 {
-  "document_id": "06_retail.docx",
+  "document_id": "06_retail.pdf",
   "status": "ok",
   "total_integrity_risk": "HIGH",
   "scores": {
@@ -9,19 +9,19 @@
   },
   "peer_matches": [
     {
-      "matched_file": "07_paraphrase.docx",
+      "matched_file": "07_paraphrase.pdf",
       "similarity_score": 0.7152,
       "query_passage": "A neighborhood retailer can improve customer retention through a membership program. Reward points encourage repeat purchases and personalized offers. Weekly sales analysis identifies which campaigns generate sustainable demand.",
       "matched_passage": "A local shop can retain shoppers by launching a loyalty scheme. Incentive credits motivate returning customers and tailored promotions. Reviewing revenue each week reveals which marketing efforts create lasting demand.",
       "location": {
         "query": [
           {
-            "paragraph": 2
+            "page": 1
           }
         ],
         "matched": [
           {
-            "paragraph": 2
+            "page": 1
           }
         ]
       }

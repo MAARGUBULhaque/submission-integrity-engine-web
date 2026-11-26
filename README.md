@@ -1,399 +1,139 @@
-# Multimodal Submission Integrity & Plagiarism Detection Engine
+# AI-Powered PDF Plagiarism Detection Engine
 
-## Overview
+An intelligent PDF plagiarism detection system built using
+Python, Natural Language Processing, pretrained transformer
+models, vector embeddings and cosine similarity.
 
-A Python-based AI/ML pipeline designed to detect submission similarities across PDF documents, DOCX files, and MP4 videos.
+The application provides an interactive Streamlit dashboard
+for detecting exact duplication, paraphrased content and
+semantic similarities across PDF documents.
 
-The system uses semantic vector embeddings, cosine similarity, and automatic speech recognition to identify exact duplication, paraphrased content, cross-modal similarities, and external reference matches.
+## Project Objectives
 
-Developed for the Unstop AI/ML Engineer Assessment.
+- Detect exact and semantic plagiarism.
+- Identify paraphrased content.
+- Compare multiple PDF documents.
+- Detect similarities against an external reference corpus.
+- Generate explainable plagiarism reports.
+- Provide an interactive browser-based application.
 
-## Key Features
+## Features
 
-- Multimodal text extraction from PDF, DOCX, and MP4.
-- Automatic speech recognition using Whisper Tiny.
-- Semantic embeddings using all-MiniLM-L6-v2.
-- NumPy-based vector similarity search.
-- Internal peer-to-peer plagiarism detection.
-- External reference similarity detection.
-- AI-generated content estimation using a documented mock heuristic.
-- Common boilerplate detection and exclusion.
-- Self-match exclusion.
-- Graceful handling of corrupted and empty files.
-- Explainable reports containing matched passages, page numbers, paragraph numbers, and video timestamps.
-- JSON, Markdown, and CSV report generation.
+- Multiple PDF file uploads
+- Automatic PDF text extraction
+- Natural Language Processing
+- Text normalization and chunking
+- MiniLM transformer model
+- 384-dimensional vector embeddings
+- Cosine similarity search
+- Exact duplication detection
+- Semantic plagiarism detection
+- Paraphrase detection
+- External reference matching
+- Configurable similarity threshold
+- Experimental AI content indicator
+- Integrity risk classification
+- Interactive Streamlit dashboard
+- Similarity charts
+- Side-by-side matching evidence
+- PDF page number tracking
+- JSON and ZIP report downloads
+- Execution logs
+- Empty PDF handling
+- Automated testing
+
+## System Architecture
+
+```mermaid
+flowchart TD
+    A[PDF Upload] --> B[PDF Text Extraction]
+    B --> C[Text Preprocessing]
+    C --> D[Text Chunking]
+    D --> E[MiniLM Transformer Model]
+    E --> F[384-dimensional Vector Embeddings]
+    F --> G[Cosine Similarity]
+    G --> H[Peer and External Matching]
+    H --> I[Integrity Risk Classification]
+    I --> J[Report Generation]
+    J --> K[Streamlit Dashboard]
+```
 
 ## Technology Stack
 
 | Technology | Purpose |
 |---|---|
-| Python 3.11 | Core programming language |
-| PyTorch | Model inference |
-| PyMuPDF | PDF text extraction |
-| python-docx | DOCX text extraction |
-| FFmpeg | Audio extraction |
-| OpenAI Whisper Tiny | Speech recognition |
-| Sentence Transformers | Semantic embeddings |
-| all-MiniLM-L6-v2 | Embedding model |
-| NumPy | Vector indexing and cosine similarity |
-| Scikit-learn | Evaluation utilities |
-| Pytest | Automated testing |
-
-## System Architecture
-
-```text
-PDF / DOCX / MP4
-        |
-Text Extraction / Speech Recognition
-        |
-Text Normalization
-        |
-Common Boilerplate Filtering
-        |
-Text Chunking and Metadata Preservation
-        |
-Semantic Vector Embeddings
-        |
-NumPy Cosine Similarity Search
-        |
-Peer Matching / External Matching
-        |
-Integrity Scoring + Independent AI Indicator
-        |
-Explainable JSON / Markdown / CSV Reports
-```
-
-## Installation
-
-### Prerequisites
-
-- Python 3.10 or 3.11 recommended.
-- FFmpeg available in the system PATH.
-- Internet access for the initial pretrained model downloads.
-
-### Create a Virtual Environment
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-### Standard Installation
-
-```bash
-python -m pip install -r requirements.txt
-```
-
-### Intel macOS Compatibility
-
-The project was successfully tested on an Intel MacBook Air running Python 3.11.3.
-
-A dependency snapshot is provided in `requirements-macos-intel.txt`.
-
-Older versions of PyTorch, NumPy, Numba, llvmlite, and PyMuPDF were required for compatibility.
-
-```bash
-python -m pip install "setuptools==75.8.2" wheel
-python -m pip install --no-build-isolation -r requirements-macos-intel.txt
-```
-
-If Homebrew or FFmpeg is unavailable, configure the FFmpeg executable supplied by imageio-ffmpeg:
-
-```bash
-ln -sf "$(python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')" "$VIRTUAL_ENV/bin/ffmpeg"
-```
-
-The pinned environment reflects the tested installation but has not been independently reproduced from a clean environment. Older dependencies should be used with synthetic assessment data only.
-
-## Running the Pipeline
-
-Execute the following command from the project root:
-
-```bash
-python run_integrity_check.py --input_dir ./sample_submissions --output_dir ./reports
-```
-
-The default cosine similarity threshold is 0.70.
-
-To specify a custom threshold:
-
-```bash
-python run_integrity_check.py --input_dir ./sample_submissions --output_dir ./reports --threshold 0.75
-```
-
-The pretrained models are downloaded automatically during the first execution.
-
-## Evaluation
-
-```bash
-python evaluate.py --reports ./reports
-```
-
-## Automated Tests
-
-```bash
-python -m pytest -q
-```
-
-## Dataset
-
-The synthetic dataset consists of 13 submissions:
-
-- 5 PDF files.
-- 5 DOCX files.
-- 3 MP4 files.
-
-It includes exact duplication, paraphrased text, cross-modal duplication, external reference copying, AI-generated text, independent submissions, common boilerplate, an empty PDF, and a silent video.
-
-Ground-truth relationships are documented in `sample_submissions/dataset_manifest.json`.
-
-No private student submissions are used.
-
-## Methodology
-
-### 1. Multimodal Ingestion
-
-PDF and DOCX documents are converted into text using dedicated extraction libraries.
-
-MP4 audio is processed using FFmpeg and transcribed using Whisper Tiny. Source metadata is preserved for explainability.
-
-### 2. Text Normalization and Chunking
-
-Extracted content is normalized and divided into overlapping chunks. Repeated common sentences are excluded to reduce false positives.
-
-### 3. Semantic Embeddings
-
-The all-MiniLM-L6-v2 model converts text chunks into 384-dimensional vector representations.
-
-### 4. Similarity Search
-
-Normalized vector embeddings are compared using NumPy-based cosine similarity.
-
-Self-matches are excluded, and matching chunks are flagged when their similarity exceeds the configured threshold.
-
-Document-level similarity represents flagged unique-word coverage rather than a definitive percentage of plagiarized content.
-
-### 5. External Reference Detection
-
-Submission embeddings are compared against a local reference knowledge base.
-
-This approach avoids commercial API costs and external search rate limits.
-
-### 6. AI Content Estimation
-
-The AI estimation module uses a reproducible, uncalibrated statistical mock heuristic.
-
-Its output is not a reliable probability of AI authorship and is excluded from the overall plagiarism risk calculation.
-
-### 7. Explainability
-
-Generated reports include matched passages, source filenames, cosine similarity scores, PDF page references, DOCX paragraph references, and video timestamps.
-
-All flagged content requires human verification.
-
-## Evaluation Results
-
-| Metric | Result |
-|---|---|
-| Total submissions | 13 |
-| Valid submissions | 11 |
-| Excluded submissions | 2 |
-| Evaluated document pairs | 55 |
-| True positives | 4 |
-| True negatives | 51 |
-| False positives | 0 |
-| False negatives | 0 |
-| Precision | 100% |
-| Recall | 100% |
-| F1 score | 100% |
-| Automated tests | 6/6 passed |
-
-### Threshold Optimization
-
-| Threshold | Precision | Recall | F1 Score |
-|---|---|---|---|
-| 0.80 | 100% | 75% | 85.71% |
-| 0.75 | 100% | 75% | 85.71% |
-| 0.70 | 100% | 100% | 100% |
-
-The selected threshold successfully detected a paraphrased document pair with cosine similarity of approximately 0.7152.
-
-These results apply only to the synthetic development dataset. Threshold selection and evaluation used the same dataset, so the results do not establish generalization to unseen submissions.
-
-Additional evaluation details are available in `EVALUATION.md`.
-
-## Production Scaling Architecture: 10,000 Submissions
-
-The prototype uses exact NumPy similarity comparisons. For production-scale workloads, the following architecture is proposed:
-
-```text
-Submission Upload
-        |
-Object Storage
-        |
-Redis / Celery Task Queue
-        |
-Parallel CPU and GPU Workers
-        |
-Vector Database with HNSW Index
-        |
-Similarity Detection Service
-        |
-PostgreSQL Metadata Storage
-        |
-Integrity Reports
-```
-
-### Compute Strategy
-
-- CPU workers for PDF and DOCX extraction.
-- GPU workers for Whisper transcription and batched embedding inference.
-- Asynchronous processing using Redis and Celery.
-- Independent worker scaling based on queue size.
-
-### Vector Indexing
-
-An HNSW-based approximate nearest-neighbor index can replace exhaustive NumPy comparisons at larger scales.
-
-HNSW improves retrieval latency at the expense of additional memory consumption and potentially missed nearest neighbors. Exact cosine similarity can be used to rerank retrieved candidates.
-
-### Storage
-
-- Object storage for submission files.
-- PostgreSQL for document metadata, task status, and audit references.
-- Vector storage for embeddings and chunk identifiers.
-
-### Cost and Performance
-
-Assuming 20 chunks per submission, 10,000 submissions would produce approximately 200,000 embeddings.
-
-At 384 dimensions using float32, the raw embedding vectors would require approximately 307 MB of storage, excluding metadata and index overhead.
-
-An exhaustive similarity matrix would require approximately 160 GB of float32 storage if fully materialized. Approximate nearest-neighbor retrieval and batched comparisons would avoid this requirement.
-
-Video transcription is expected to be a major computational bottleneck. Batch inference, caching, asynchronous workers, and incremental indexing can improve throughput.
-
-These are architectural estimates rather than measured production benchmarks.
-
-## Assumptions
-
-- Input documents primarily contain English text.
-- PDF files contain extractable text rather than scanned images.
-- Video submissions are short and contain spoken content.
-- Local external references simulate web plagiarism detection.
-- Similarity indicates potential overlap rather than definitive misconduct.
-- Human reviewers make final integrity decisions.
-
-## Limitations
-
-- Small synthetic evaluation dataset.
-- Threshold tuning and evaluation use the same samples.
-- No independent generalization benchmark.
-- External reference coverage is limited.
-- AI estimation is an uncalibrated mock heuristic.
-- Scanned PDF OCR is not implemented.
-- Production scalability has not been load-tested.
-- DOCX locations use paragraph references rather than rendered page numbers.
-
-## Future Improvements
-
-- Independent validation and test datasets.
-- FAISS or HNSW vector indexing.
-- Sentence-level semantic matching and cross-encoder reranking.
-- OCR support for scanned documents.
-- Multilingual speech and text processing.
-- Calibrated AI content classification.
-- Distributed processing and production monitoring.
-
-## AI Assistance Disclosure
-
-ChatGPT was used extensively to generate the initial project implementation, synthetic dataset, documentation drafts, and debugging guidance.
-
-Local environment configuration, pipeline execution, threshold experiments, report inspection, and automated testing were subsequently performed by the candidate with AI guidance.
-
-The candidate should independently review and understand the implementation and confirm that the scope of AI assistance complies with the assessment rules before submission.
----
-
-## Streamlit Web Application
-
-An interactive browser-based dashboard for multimodal AI-powered plagiarism detection.
-
-### Web Application Features
-
-- Interactive Streamlit dashboard
-- Multiple PDF, DOCX and MP4 file uploads
-- Built-in synthetic sample dataset
-- Configurable semantic similarity threshold
-- Automatic text extraction and video transcription
-- Exact and semantic plagiarism detection
-- Paraphrase detection
-- Cross-modal plagiarism detection
-- External reference matching
-- Experimental AI-generated content indicator
-- Submission integrity risk classification
-- Interactive charts and results tables
-- Side-by-side matching evidence
-- PDF page numbers, DOCX paragraph references and video timestamps
-- Execution logs and error handling
-- Downloadable reports in ZIP format
-
-### Technology Stack
-
-| Technology | Purpose |
-|---|---|
 | Python | Core programming language |
-| Streamlit | Web frontend |
+| Streamlit | Interactive web frontend |
+| PyMuPDF | PDF text extraction |
 | PyTorch | Model inference |
-| MiniLM | Semantic vector embeddings |
-| Whisper | Speech-to-text transcription |
-| Scikit-learn | Machine learning utilities |
+| Sentence Transformers | Semantic embeddings |
+| MiniLM-L6-v2 | Pretrained transformer model |
 | NumPy | Vector calculations |
+| Scikit-learn | Similarity and evaluation |
 | Pandas | Data processing |
-| PyArrow | Data serialization |
-| PyMuPDF | PDF extraction |
-| python-docx | Word document extraction |
-| FFmpeg | Audio processing |
+| PyArrow | Table serialization |
 | Pytest | Automated testing |
+| Git and GitHub | Version control |
 
-### Web Application Architecture
+## AI Model
 
-```mermaid
-flowchart TD
-    A[Streamlit Dashboard] --> B[File Upload]
-    B --> C[Text and Audio Extraction]
-    C --> D[Text Preprocessing]
-    D --> E[Text Chunking]
-    E --> F[MiniLM Vector Embeddings]
-    F --> G[Cosine Similarity]
-    G --> H[Internal and External Matching]
-    H --> I[Integrity Risk Classification]
-    I --> J[Dashboard and Reports]
+Model: sentence-transformers/all-MiniLM-L6-v2
+
+- Architecture: Transformer encoder
+- Embedding dimensions: 384
+- Model type: Pretrained sentence embedding model
+- Inference device: CPU
+- Similarity metric: Cosine similarity
+- Default similarity threshold: 0.70
+
+The project uses pretrained model inference rather than
+training or fine-tuning a model from scratch.
+
+## Project Structure
+
+```
+submission-integrity-engine-web/
+├── app.py
+├── run_integrity_check.py
+├── evaluate.py
+├── generate_samples.py
+├── requirements.txt
+├── requirements-web.txt
+├── requirements-macos-intel.txt
+├── README.md
+├── EVALUATION.md
+├── src/
+│   ├── __init__.py
+│   ├── extractors.py
+│   ├── chunking.py
+│   ├── embeddings.py
+│   ├── ai_detector.py
+│   └── reporter.py
+├── sample_submissions/
+├── reference_data/
+├── reports/
+└── tests/
+    └── test_pipeline.py
 ```
 
-## How to Run the Web Application
+## How to Run This Project
 
-### Prerequisites
-
-- Python 3.11
-- Git
-- FFmpeg
-- Sufficient disk space
-- Internet connection for initial model downloads
-
-### 1. Clone the repository
+### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/MAARGUBULhaque/submission-integrity-engine-web.git
+git clone -b pdf-only https://github.com/MAARGUBULhaque/submission-integrity-engine-web.git
 cd submission-integrity-engine-web
 ```
 
-### 2. Create a virtual environment
+### 2. Create Virtual Environment
+
+Python 3.11 is recommended.
 
 ```bash
 python3 -m venv .venv
 ```
 
-### 3. Activate the virtual environment
+### 3. Activate Virtual Environment
 
 macOS and Linux:
 
@@ -407,50 +147,57 @@ Windows:
 .venv\Scripts\activate
 ```
 
-### 4. Install dependencies
+### 4. Install Dependencies
 
 ```bash
-python -m pip install setuptools==75.8.2 wheel
-python -m pip install --no-build-isolation -r requirements-web.txt
+python -m pip install -r requirements-web.txt
 ```
 
-The dependency snapshot was prepared on macOS Intel using Python 3.11.3. Other platforms may require dependency adjustments.
+The dependency versions are based on the development
+environment using Python 3.11.3 on macOS Intel.
+Other platforms may require adjustments.
 
-### 5. Configure FFmpeg
-
-For macOS:
-
-```bash
-ln -sf "$(python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')" "$VIRTUAL_ENV/bin/ffmpeg"
-```
-
-Verify FFmpeg:
-
-```bash
-ffmpeg -version
-```
-
-### 6. Start the web application
+### 5. Start the Application
 
 ```bash
 python -m streamlit run app.py
 ```
 
-Open http://localhost:8501 in your browser.
+Open the local URL displayed in the terminal,
+normally http://localhost:8501.
 
-### 7. Analyze submissions
+### 6. Analyze PDF Documents
 
-1. Select the sample dataset or upload files.
-2. Set the similarity threshold to 0.70.
-3. Click Analyze Submissions.
-4. Review the dashboard and similarity scores.
-5. Examine matching evidence.
-6. Download the generated reports.
+1. Select Upload files or Use sample dataset.
+2. Upload PDF documents.
+3. Configure the similarity threshold.
+4. Click Analyze Submissions.
+5. Review the similarity results.
+6. Examine matching passages and page references.
+7. Download the generated reports.
 
-## Run the CLI Version
+Upload at least two PDFs for peer comparison.
+A single PDF can be compared against external references.
+
+The first execution may require an internet connection
+to download the pretrained MiniLM model.
+
+## Run the CLI Pipeline
 
 ```bash
-python run_integrity_check.py --input_dir ./sample_submissions --output_dir ./reports
+python run_integrity_check.py --input_dir ./sample_submissions --output_dir ./reports --threshold 0.70
+```
+
+## Generate Synthetic Dataset
+
+```bash
+python generate_samples.py
+```
+
+## Evaluate Performance
+
+```bash
+python evaluate.py --reports ./reports
 ```
 
 ## Run Automated Tests
@@ -459,41 +206,147 @@ python run_integrity_check.py --input_dir ./sample_submissions --output_dir ./re
 python -m pytest -q
 ```
 
-## Sample Evaluation Results
+## Synthetic Test Dataset
+
+| File | Testing Scenario |
+|---|---|
+| 01_health.pdf | Original content |
+| 02_copy.pdf | Exact duplication |
+| 03_transit.pdf | Independent content |
+| 04_farming.pdf | Independent content |
+| 05_empty.pdf | Invalid file handling |
+| 06_retail.pdf | Original content |
+| 07_paraphrase.pdf | Semantic paraphrasing |
+| 08_ai.pdf | Experimental AI indicator |
+| 09_external.pdf | External reference matching |
+| 10_library.pdf | Independent content |
+
+## Evaluation Results
 
 | Metric | Result |
 |---|---:|
-| Total submissions | 13 |
-| Successfully processed | 11 |
-| Skipped submissions | 2 |
-| High-risk submissions | 6 |
-| Similarity threshold | 0.70 |
+| Total PDFs | 10 |
+| Valid PDFs | 9 |
+| Skipped PDFs | 1 |
+| Evaluated document pairs | 36 |
+| True positives | 2 |
+| True negatives | 34 |
+| False positives | 0 |
+| False negatives | 0 |
+| Accuracy | 100% |
 | Precision | 100% |
 | Recall | 100% |
 | F1 Score | 100% |
-| Exact passage similarity | 100% |
-| Cross-modal passage similarity | 99.23% |
-| Paraphrase passage similarity | 71.52% |
-| Automated tests previously passed | 6/6 |
+| Similarity threshold | 0.70 |
 
-Evaluation metrics are based on a synthetic development dataset and do not guarantee equivalent performance on unseen submissions.
+These results were measured on a small synthetic
+development dataset and do not establish real-world
+accuracy or generalization.
+
+## Understanding the Results
+
+Peer and external similarity percentages represent
+matched word-position coverage at the configured
+similarity threshold.
+
+Individual matching passages have separate cosine
+similarity scores.
+
+High similarity does not independently prove plagiarism.
+Human verification is required.
+
+The AI content indicator is an uncalibrated mock
+heuristic, not a validated AI authorship classifier.
+It is not used for integrity risk classification.
+
+## Changes from the Multimodal Version
+
+### Removed
+
+- DOCX processing
+- MP4 processing
+- Whisper speech recognition
+- FFmpeg and audio processing requirements
+- Cross-modal plagiarism detection
+- Video timestamp reporting
+
+### Updated
+
+- PDF-only extraction engine
+- PDF-only processing pipeline
+- Streamlit upload configuration
+- Dashboard title and model information
+- Synthetic dataset with 10 PDFs
+- Evaluation script
+- Automated test suite
+- Dependency configuration
+- Evaluation reports
+- Project documentation
+
+### Retained
+
+- MiniLM model
+- Natural Language Processing
+- Vector embeddings
+- Cosine similarity
+- Semantic plagiarism detection
+- External reference matching
+- Explainable reports
+- Interactive Streamlit dashboard
 
 ## Limitations
 
-- AI-generated content estimation is an unvalidated mock heuristic.
-- External plagiarism detection uses a local reference corpus.
-- Similarity scores require human verification.
-- The web application currently runs locally.
-- Large-scale distributed processing is proposed but not implemented.
+- Supports text-based PDFs only.
+- Scanned PDFs may require OCR.
+- External matching uses a local reference corpus.
+- Does not search the entire internet.
+- AI content estimation is experimental.
+- Similarity results require human verification.
+- Evaluation is limited to synthetic data.
+- The simplified dependency configuration has not
+  yet been validated in a fresh environment.
+- The application currently runs locally.
 
 ## Future Enhancements
 
-- Cloud deployment
+- OCR for scanned PDF documents
+- FAISS or HNSW vector indexing
 - REST API integration
-- User authentication
+- Cloud deployment
 - Database integration
-- Vector database integration
-- Distributed processing
-- Validated AI content classification
-- Expanded external reference databases
+- Authentication
+- Parallel document processing
+- Larger independent evaluation datasets
+
+## AI Assistance Disclosure
+
+AI assistance was used for code generation,
+implementation guidance, debugging, dependency
+troubleshooting and documentation.
+
+The pretrained MiniLM model was integrated rather
+than trained from scratch.
+
+The application was executed locally, evaluated
+against synthetic ground truth and demonstrated
+through its Streamlit dashboard.
+
+## Version Information
+
+This PDF-only branch is a simplified derivative of
+the original Multimodal Submission Integrity Engine.
+
+The original multimodal implementation is preserved
+separately and supports PDF, DOCX and MP4 submissions.
+
+This simplified version is intended for learning,
+portfolio demonstration and technical interview
+preparation. It does not replace the original
+multimodal assignment requirements.
+
+## Author
+
+Maargubul Haque Shamsi
+
+GitHub: https://github.com/MAARGUBULhaque
 

@@ -1,4 +1,4 @@
-# 06_retail.docx
+# 06_retail.pdf
 Status: ok
 Risk: HIGH
 
@@ -11,9 +11,9 @@ Flagged unique-word coverage at cosine threshold 0.7; 1 common sentences exclude
 
 ## peer_matches
 
-### 07_paraphrase.docx — 0.715
-Query location: [{'paragraph': 2}]
-Source location: [{'paragraph': 2}]
+### 07_paraphrase.pdf — 0.715
+Query location: [{'page': 1}]
+Source location: [{'page': 1}]
 
 Query: A neighborhood retailer can improve customer retention through a membership program. Reward points encourage repeat purchases and personalized offers. Weekly sales analysis identifies which campaigns generate sustainable demand.
 

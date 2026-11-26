@@ -12,3 +12,6 @@ reports_offline/
 *.pt
 *.pth
 *.safetensors
+
+reports_pdf/
+reports_pdf_v2/

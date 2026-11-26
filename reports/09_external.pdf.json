@@ -1,5 +1,5 @@
 {
-  "document_id": "09_external.docx",
+  "document_id": "09_external.pdf",
   "status": "ok",
   "total_integrity_risk": "HIGH",
   "scores": {
@@ -18,7 +18,7 @@
       "location": {
         "query": [
           {
-            "paragraph": 1
+            "page": 1
           }
         ],
         "matched": [

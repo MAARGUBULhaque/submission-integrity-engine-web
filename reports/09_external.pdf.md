@@ -1,4 +1,4 @@
-# 09_external.docx
+# 09_external.pdf
 Status: ok
 Risk: HIGH
 
@@ -16,7 +16,7 @@ Flagged unique-word coverage at cosine threshold 0.7; 1 common sentences exclude
 ## external_matches
 
 ### rainwater.txt — 1.000
-Query location: [{'paragraph': 1}]
+Query location: [{'page': 1}]
 Source location: [{'line': 1}]
 
 Query: Rainwater harvesting captures rooftop runoff in storage tanks. Filtration removes debris before water enters the reservoir. Schools can use collected water to irrigate gardens and reduce municipal consumption.

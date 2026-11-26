@@ -1,61 +1,132 @@
-"""Generate synthetic fixtures; requires ffmpeg and espeak for spoken clips."""
+"""Generate synthetic PDF fixtures for plagiarism detection."""
+
 import json
-import subprocess
-import tempfile
 from pathlib import Path
 import fitz
-from docx import Document
 
 ROOT = Path(__file__).resolve().parent
-OUT = ROOT / 'sample_submissions'
+OUT = ROOT / "sample_submissions"
 OUT.mkdir(exist_ok=True)
-PROMPT = 'Describe your proposed strategy and explain the expected measurable outcomes.'
-HEALTH = 'Community clinics can reduce diagnostic delays by using remote consultations. Patients receive early screening through mobile health applications. Local nurses coordinate follow-up appointments with specialist doctors. The proposed pilot tracks waiting time and patient satisfaction.'
-MARKET = 'A neighborhood retailer can improve customer retention through a membership program. Reward points encourage repeat purchases and personalized offers. Weekly sales analysis identifies which campaigns generate sustainable demand.'
-PARA = 'A local shop can retain shoppers by launching a loyalty scheme. Incentive credits motivate returning customers and tailored promotions. Reviewing revenue each week reveals which marketing efforts create lasting demand.'
-EXT = 'Rainwater harvesting captures rooftop runoff in storage tanks. Filtration removes debris before water enters the reservoir. Schools can use collected water to irrigate gardens and reduce municipal consumption.'
+
+PROMPT = (
+    "Describe your proposed strategy and explain "
+    "the expected measurable outcomes."
+)
+
+HEALTH = (
+    "Community clinics can reduce diagnostic delays by using "
+    "remote consultations. Patients receive early screening "
+    "through mobile health applications. Local nurses coordinate "
+    "follow-up appointments with specialist doctors. The proposed "
+    "pilot tracks waiting time and patient satisfaction."
+)
+
+MARKET = (
+    "A neighborhood retailer can improve customer retention "
+    "through a membership program. Reward points encourage "
+    "repeat purchases and personalized offers. Weekly sales "
+    "analysis identifies which campaigns generate sustainable demand."
+)
+
+PARA = (
+    "A local shop can retain shoppers by launching a loyalty "
+    "scheme. Incentive credits motivate returning customers "
+    "and tailored promotions. Reviewing revenue each week "
+    "reveals which marketing efforts create lasting demand."
+)
+
+EXT = (
+    "Rainwater harvesting captures rooftop runoff in storage tanks. "
+    "Filtration removes debris before water enters the reservoir. "
+    "Schools can use collected water to irrigate gardens and "
+    "reduce municipal consumption."
+)
 
 
 def pdf(name, text):
-    with fitz.open() as d:
-        p = d.new_page()
-        p.insert_textbox(fitz.Rect(50, 50, 540, 780), text, fontsize=12)
-        d.save(OUT / name)
+    with fitz.open() as document:
+        page = document.new_page()
+
+        remaining = page.insert_textbox(
+            fitz.Rect(50, 50, 540, 780),
+            text,
+            fontsize=12
+        )
+
+        if remaining < 0:
+            raise ValueError("Text does not fit: " + name)
+
+        document.save(OUT / name)
 
 
-def docx(name, text):
-    d = Document()
-    for p in text.split('\n'):
-        d.add_paragraph(p)
-    d.save(OUT / name)
+if __name__ == "__main__":
 
+    pdf("01_health.pdf", PROMPT + "\n" + HEALTH)
 
-def video(name, text=None):
-    with tempfile.TemporaryDirectory() as t:
-        cmd = ['ffmpeg', '-y', '-loglevel', 'error', '-f', 'lavfi', '-i', 'color=c=0x182638:s=320x240:r=15']
-        if text:
-            wav = str(Path(t) / 'speech.wav')
-            subprocess.run(['espeak', '-s', '150', '-w', wav, text], check=True)
-            cmd += ['-i', wav, '-af', 'apad', '-t', '25', '-c:a', 'aac']
-        else:
-            cmd += ['-t', '12', '-an']
-        subprocess.run(cmd + ['-c:v', 'libx264', '-pix_fmt', 'yuv420p', str(OUT / name)], check=True)
+    pdf("02_copy.pdf", PROMPT + "\n" + HEALTH)
 
+    pdf(
+        "03_transit.pdf",
+        PROMPT + "\n"
+        "Bus routes should connect peripheral neighborhoods "
+        "with railway stations. Passenger counts determine peak "
+        "service frequency. Electric buses reduce local exhaust emissions."
+    )
 
-if __name__ == '__main__':
-    pdf('01_health.pdf', PROMPT+'\n'+HEALTH)
-    pdf('02_copy.pdf', PROMPT+'\n'+HEALTH)
-    pdf('03_transit.pdf', PROMPT+'\nBus routes should connect peripheral neighborhoods with railway stations. Passenger counts determine peak service frequency. Electric buses reduce local exhaust emissions.')
-    pdf('04_farming.pdf', PROMPT+'\nSoil moisture sensors guide drip irrigation. Farmers compare crop yield across treatment plots. Seasonal rainfall informs planting schedules.')
-    (OUT / '05_empty.pdf').write_bytes(b'')
-    docx('06_retail.docx', PROMPT+'\n'+MARKET)
-    docx('07_paraphrase.docx', PROMPT+'\n'+PARA)
-    docx('08_ai.docx', 'Digital transformation enables organizations to improve operational efficiency. Strategic implementation requires collaboration across diverse business functions. Continuous evaluation supports sustainable growth and organizational adaptability. Effective leadership promotes innovation through structured change management.')
-    docx('09_external.docx', EXT)
-    docx('10_library.docx', 'Libraries can loan science kits to rural classrooms. Teachers record student experiments in notebooks. Volunteers repair broken components during monthly workshops.')
-    video('11_health.mp4', HEALTH)
-    video('12_original.mp4', 'The astronomy club uses a portable telescope to observe lunar craters. Members sketch the visible surface and compare observations during weekly meetings.')
-    video('13_silent.mp4')
-    (ROOT / 'reference_data' / 'rainwater.txt').write_text(EXT)
-    manifest = {'peer_positive_pairs': [['01_health.pdf','02_copy.pdf'],['01_health.pdf','11_health.mp4'],['02_copy.pdf','11_health.mp4'],['06_retail.docx','07_paraphrase.docx']], 'external_positive': ['09_external.docx'], 'ai_generated': ['08_ai.docx'], 'invalid': ['05_empty.pdf','13_silent.mp4'], 'notes': 'All content synthetic; 08_ai text generated by ChatGPT; shared prompt in six documents; spoken clips use eSpeak.'}
-    (OUT / 'dataset_manifest.json').write_text(json.dumps(manifest, indent=2))
+    pdf(
+        "04_farming.pdf",
+        PROMPT + "\n"
+        "Soil moisture sensors guide drip irrigation. Farmers compare "
+        "crop yield across treatment plots. Seasonal rainfall "
+        "informs planting schedules."
+    )
+
+    (OUT / "05_empty.pdf").write_bytes(b"")
+
+    pdf("06_retail.pdf", PROMPT + "\n" + MARKET)
+
+    pdf("07_paraphrase.pdf", PROMPT + "\n" + PARA)
+
+    pdf(
+        "08_ai.pdf",
+        "Digital transformation enables organizations to improve "
+        "operational efficiency. Strategic implementation requires "
+        "collaboration across diverse business functions. Continuous "
+        "evaluation supports sustainable growth and organizational "
+        "adaptability. Effective leadership promotes innovation "
+        "through structured change management."
+    )
+
+    pdf("09_external.pdf", EXT)
+
+    pdf(
+        "10_library.pdf",
+        "Libraries can loan science kits to rural classrooms. "
+        "Teachers record student experiments in notebooks. "
+        "Volunteers repair broken components during monthly workshops."
+    )
+
+    reference_dir = ROOT / "reference_data"
+    reference_dir.mkdir(exist_ok=True)
+
+    (reference_dir / "rainwater.txt").write_text(EXT)
+
+    manifest = {
+        "peer_positive_pairs": [
+            ["01_health.pdf", "02_copy.pdf"],
+            ["06_retail.pdf", "07_paraphrase.pdf"]
+        ],
+        "external_positive": ["09_external.pdf"],
+        "ai_generated": ["08_ai.pdf"],
+        "invalid": ["05_empty.pdf"],
+        "notes": (
+            "All content is synthetic. The AI sample contains "
+            "ChatGPT-generated text. Six PDFs contain a shared prompt."
+        )
+    }
+
+    (OUT / "dataset_manifest.json").write_text(
+        json.dumps(manifest, indent=2)
+    )
+
+    print("Successfully generated 10 PDF test submissions.")

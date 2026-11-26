@@ -1,11 +1,11 @@
 {
-  "document_id": "12_original.mp4",
+  "document_id": "08_ai.pdf",
   "status": "ok",
   "total_integrity_risk": "LOW",
   "scores": {
     "peer_similarity_percentage": 0.0,
     "external_similarity_percentage": 0.0,
-    "ai_generated_probability": null
+    "ai_generated_probability": 100.0
   },
   "peer_matches": [],
   "multimodal_matches": [],

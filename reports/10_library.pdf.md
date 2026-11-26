@@ -1,4 +1,4 @@
-# 08_ai.docx
+# 10_library.pdf
 Status: ok
 Risk: LOW
 
@@ -7,7 +7,7 @@ Flagged unique-word coverage at cosine threshold 0.7; 1 common sentences exclude
 ## Scores
 - peer_similarity_percentage: 0.0
 - external_similarity_percentage: 0.0
-- ai_generated_probability: 100.0
+- ai_generated_probability: 74.08
 
 ## peer_matches
 

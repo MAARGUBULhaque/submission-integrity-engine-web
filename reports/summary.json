@@ -50,7 +50,7 @@
     "total_integrity_risk": "UNKNOWN"
   },
   {
-    "document_id": "06_retail.docx",
+    "document_id": "06_retail.pdf",
     "status": "ok",
     "scores": {
       "peer_similarity_percentage": 100.0,
@@ -60,7 +60,7 @@
     "total_integrity_risk": "HIGH"
   },
   {
-    "document_id": "07_paraphrase.docx",
+    "document_id": "07_paraphrase.pdf",
     "status": "ok",
     "scores": {
       "peer_similarity_percentage": 100.0,
@@ -70,7 +70,7 @@
     "total_integrity_risk": "HIGH"
   },
   {
-    "document_id": "08_ai.docx",
+    "document_id": "08_ai.pdf",
     "status": "ok",
     "scores": {
       "peer_similarity_percentage": 0.0,
@@ -80,7 +80,7 @@
     "total_integrity_risk": "LOW"
   },
   {
-    "document_id": "09_external.docx",
+    "document_id": "09_external.pdf",
     "status": "ok",
     "scores": {
       "peer_similarity_percentage": 0.0,
@@ -90,7 +90,7 @@
     "total_integrity_risk": "HIGH"
   },
   {
-    "document_id": "10_library.docx",
+    "document_id": "10_library.pdf",
     "status": "ok",
     "scores": {
       "peer_similarity_percentage": 0.0,
@@ -98,35 +98,5 @@
       "ai_generated_probability": 74.08
     },
     "total_integrity_risk": "LOW"
-  },
-  {
-    "document_id": "11_health.mp4",
-    "status": "ok",
-    "scores": {
-      "peer_similarity_percentage": 100.0,
-      "external_similarity_percentage": 0.0,
-      "ai_generated_probability": 77.86
-    },
-    "total_integrity_risk": "HIGH"
-  },
-  {
-    "document_id": "12_original.mp4",
-    "status": "ok",
-    "scores": {
-      "peer_similarity_percentage": 0.0,
-      "external_similarity_percentage": 0.0,
-      "ai_generated_probability": null
-    },
-    "total_integrity_risk": "LOW"
-  },
-  {
-    "document_id": "13_silent.mp4",
-    "status": "skipped",
-    "scores": {
-      "peer_similarity_percentage": null,
-      "external_similarity_percentage": null,
-      "ai_generated_probability": null
-    },
-    "total_integrity_risk": "UNKNOWN"
   }
 ]

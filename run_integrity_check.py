@@ -16,17 +16,13 @@ def coverage(chunks, matched):
     return round(100 * len(covered) / total, 2) if total else None
 
 
-def run(input_dir, output_dir, reference_dir, backend='semantic', threshold=.8, skip_video=False):
+def run(input_dir, output_dir, reference_dir, backend='semantic', threshold=.70):
     output_dir.mkdir(parents=True, exist_ok=True)
     docs, errors = {}, {}
-    files = sorted(p for p in input_dir.iterdir() if p.suffix.lower() in ('.pdf', '.docx', '.mp4'))
-    model = None
-    if not skip_video and any(p.suffix.lower() == '.mp4' for p in files):
-        import whisper
-        model = whisper.load_model('tiny')
+    files = sorted(p for p in input_dir.iterdir() if p.is_file() and p.suffix.lower() == '.pdf')
     for p in files:
         try:
-            docs[p.name] = extract(p, model)
+            docs[p.name] = extract(p)
         except Exception as exc:
             errors[p.name] = str(exc)
             logging.warning('%s: %s', p.name, exc)
@@ -53,7 +49,7 @@ def run(input_dir, output_dir, reference_dir, backend='semantic', threshold=.8, 
                 for index, is_peer in ((peer, True), (external, False)):
                     for other, source, score in index.search(v, name if is_peer else None, threshold):
                         match = {'matched_file': other, 'similarity_score': round(score, 4), 'query_passage': c['text'], 'matched_passage': source['text'], 'location': {'query': c['location'], 'matched': source['location']}}
-                        group = ('multimodal_matches' if (p.suffix.lower() == '.mp4') != other.lower().endswith('.mp4') else 'peer_matches') if is_peer else 'external_matches'
+                        group = 'peer_matches' if is_peer else 'external_matches'
                         report[group].append(match)
                         (matched_peer if is_peer else matched_ext).append(c)
                         if is_peer:
@@ -75,15 +71,14 @@ def run(input_dir, output_dir, reference_dir, backend='semantic', threshold=.8, 
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Multimodal submission integrity prototype')
+    parser = argparse.ArgumentParser(description='AI-powered PDF plagiarism detection engine')
     parser.add_argument('--input_dir', type=Path, default=Path('sample_submissions'))
     parser.add_argument('--output_dir', type=Path, default=Path('reports'))
     parser.add_argument('--reference_dir', type=Path, default=Path('reference_data'))
     parser.add_argument('--backend', choices=['semantic', 'lexical'], default='semantic')
     parser.add_argument('--threshold', type=float, default=.70)
-    parser.add_argument('--skip-video', action='store_true')
     args = parser.parse_args()
     if not 0 <= args.threshold <= 1:
         parser.error('threshold must be in [0, 1]')
     logging.basicConfig(level=logging.INFO)
-    run(args.input_dir, args.output_dir, args.reference_dir, args.backend, args.threshold, args.skip_video)
+    run(args.input_dir, args.output_dir, args.reference_dir, args.backend, args.threshold)

@@ -11,7 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 
 st.set_page_config(
-    page_title="Integrity Engine",
+    page_title="AI PDF Plagiarism Detector",
     page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -38,8 +38,8 @@ st.markdown("""
 
 # Sidebar
 with st.sidebar:
-    st.title("🛡️ Integrity Engine")
-    st.caption("Multimodal AI Detection")
+    st.title("🛡️ PDF Plagiarism Detector")
+    st.caption("AI-Powered PDF Plagiarism Detection")
 
     st.divider()
     st.subheader("Configuration")
@@ -60,20 +60,19 @@ with st.sidebar:
     st.divider()
     st.subheader("AI Models")
     st.success("MiniLM-L6-v2")
-    st.success("Whisper Tiny")
     st.caption("CPU-based inference")
 
     st.divider()
     st.caption(
-        "Semantic similarity • NLP • Speech recognition"
+        "Semantic similarity • NLP • Vector embeddings"
     )
 
 # Header
-st.title("Submission Integrity Dashboard")
+st.title("AI PDF Plagiarism Detection Dashboard")
 
 st.caption(
-    "Detect exact duplication, semantic plagiarism "
-    "and cross-modal content similarities."
+    "Detect exact duplication, paraphrased content "
+    "and semantic similarities across PDF documents."
 )
 
 st.divider()
@@ -85,33 +84,33 @@ uploads = []
 
 if mode == "Upload files":
     uploads = st.file_uploader(
-        "Upload your documents or videos",
-        type=["pdf", "docx", "mp4"],
+        "Upload your PDF documents",
+        type=["pdf"],
         accept_multiple_files=True
     )
 
     st.info(
-        "Upload at least two files for peer similarity "
+        "Upload at least two PDFs for peer similarity "
         "comparison. A single file can still be checked "
         "against external references."
     )
 else:
-    st.info("The built-in synthetic dataset will be analyzed.")
+    st.info("The PDF files from the built-in synthetic dataset will be analyzed.")
 
 analyze = st.button(
     "Analyze Submissions",
     type="primary",
-    use_container_width=True
+    width="stretch"
 )
 
 # Execute existing backend
 if analyze:
     if mode == "Upload files" and not uploads:
-        st.warning("Please upload at least one file.")
+        st.warning("Please upload at least one PDF file.")
     else:
         st.session_state.pop("integrity_results", None)
 
-        with st.spinner("Extracting content and analyzing similarities..."):
+        with st.spinner("Extracting PDF text and analyzing similarities..."):
             try:
                 with tempfile.TemporaryDirectory() as temp:
                     temp_path = Path(temp)
@@ -263,7 +262,7 @@ if "integrity_results" in st.session_state:
 
     st.dataframe(
         df,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
         column_config={
             "Peer similarity": st.column_config.ProgressColumn(
@@ -346,7 +345,6 @@ if "integrity_results" in st.session_state:
 
         matches = (
             report.get("peer_matches", [])
-            + report.get("multimodal_matches", [])
             + report.get("external_matches", [])
         )
 
@@ -411,13 +409,13 @@ else:
         st.metric("PDF support", "Enabled")
 
     with c2:
-        st.metric("DOCX support", "Enabled")
+        st.metric("Semantic detection", "Enabled")
 
     with c3:
-        st.metric("MP4 support", "Enabled")
+        st.metric("External matching", "Enabled")
 
 st.divider()
 st.caption(
-    "Integrity Engine | AI/ML-powered submission analysis | "
+    "PDF Plagiarism Detector | AI/ML-powered analysis | "
     "Human verification required"
 )
